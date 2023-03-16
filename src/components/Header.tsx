@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Menu } from "react-feather";
+import { Menu, ChevronRight, ChevronDown } from "react-feather";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
   let [burger, setBurger] = useState(true); //reset to false
-  let [modal, setModal] = useState(true);
+  let [modal, setModal] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="md:h-screen w-screen md:w-80 bg-polar-2">
@@ -23,68 +23,66 @@ const Header = () => {
       <div
         className={
           (burger
-            ? "absolute h-screen w-screen z-50 bg-polar-3 text-center "
-            : "hidden") + " text-snow-2 divide-y"
+            ? "absolute h-screen w-screen z-50 bg-polar-1 text-center "
+            : "hidden") + " text-snow-0 "
           //todo make animation go down lmao
         }
       >
-        <div
-          className="text-xl p-4"
-          onClick={() => {
-            navigate("/");
-            setBurger(!burger);
-          }}
-        >
-          home
-        </div>
-        <div
-          className="text-xl p-4"
-          onClick={() => {
-            navigate("/faq");
-            setBurger(!burger);
-          }}
-        >
-          contact
-        </div>
-        <div className="flex flex-row p-4 items-center justify-center">
+        <Nav name="Home" path="" setBurger={setBurger} />
+
+        <div className="flex flex-row justify-center w-screen  ">
           {modal ? (
-            <div className="divide-y">
-              <div> Projects </div>
+            <div className="flex flex-col items-center">
               <div
-                className="text-xl p-4"
+                className="text-xl flex items-center p-4"
                 onClick={() => {
-                  navigate("/solaris");
-                  setBurger(!burger);
+                  setModal(!modal);
                 }}
               >
-                Solaris
+                <ChevronDown size={24} />
+                Projects
               </div>
-
-              <div
-                className="text-xl p-4"
-                onClick={() => {
-                  navigate("/floppanotes");
-                  setBurger(!burger);
-                }}
-              >
-                Floppa Notes
-              </div>
-
-              <div
-                className="text-xl p-4"
-                onClick={() => {
-                  navigate("/floppafiles");
-                  setBurger(!burger);
-                }}
-              >
-                Floppa Files
+              <div className="bg-polar-2  text-snow-0">
+                <Nav name="Solaris" path="solaris" setBurger={setBurger} />
+                <Nav
+                  name="Floppa Notes"
+                  path="floppanotes"
+                  setBurger={setBurger}
+                />
+                <Nav name="Floppa 40" path="floppa40" setBurger={setBurger} />
               </div>
             </div>
           ) : (
-            <div className="text-xl">Projects</div>
+            <div
+              className="text-xl flex items-center p-4"
+              onClick={() => {
+                setModal(!modal);
+              }}
+            >
+              <ChevronRight size={24} />
+              Projects
+            </div>
           )}
         </div>
+
+        <Nav name="FAQ" path="faq" setBurger={setBurger} />
+        <Nav name="Contact" path="contact" setBurger={setBurger} />
       </div>
+    </div>
+  );
+};
+
+const Nav = ({ name, path, setBurger }) => {
+  const navigate = useNavigate();
+  return (
+    <div
+      className="text-xl p-4 w-screen"
+      onClick={() => {
+        navigate("/" + path);
+        setBurger(false);
+      }}
+    >
+      {name}
     </div>
   );
 };
