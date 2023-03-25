@@ -14,7 +14,7 @@ import { Header } from "./components/index.ts";
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="min-h-screen h-full  w-screen flex md:flex-row flex-col">
+      <div className="min-h-screen  min-w-screen flex md:flex-row flex-col">
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
